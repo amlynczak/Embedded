@@ -21,13 +21,13 @@ void TIMER0_IRQHandler(void){
 int main(){
 	/*KONFIGURACJA USART*/
 	PIN_Configure(0, 2, 1, 2, 0);
-	PIN_Configure(0, 3, 1, 2, 0); 
-		
+	PIN_Configure(0, 3, 1, 2, 0);
+
 	LPC_UART0->LCR = 3 | (1<<7);
-	LPC_UART0->DLL = 27; 
-	LPC_UART0->DLM = 0; 
+	LPC_UART0->DLL = 27;
+	LPC_UART0->DLM = 0;
 	LPC_UART0->LCR = 3;
-    /*USART koniec - to samo co ostatnio*/
+	/*USART koniec - to samo co ostatnio*/
 	
 	LPC_TIM0->PR = 0; //ustawienie Prescaler Register - podzial czestotliwosci zegara wyjsciowego timera
 	LPC_TIM0->MR0 = 12500000; //Match Register 0 - gorna granica licznika timera

@@ -33,13 +33,13 @@ void RTC_IRQHandler(void){
 int main(){
     /*KONFIGURACJA USART*/
     PIN_Configure(0, 2, 1, 2, 0);
-	PIN_Configure(0, 3, 1, 2, 0); 
-		
-	LPC_UART0->LCR = 3 | (1<<7); 
-	LPC_UART0->DLL = 27; 
-	LPC_UART0->DLM = 0; 
+	PIN_Configure(0, 3, 1, 2, 0);
+
+	LPC_UART0->LCR = 3 | (1<<7);
+	LPC_UART0->DLL = 27;
+	LPC_UART0->DLM = 0;
 	LPC_UART0->LCR = 3;
-    /*USART koniec - to samo*/
+	/*USART koniec - to samo*/
 
     LPC_RTC->CCR = 1; //wlaczenie zegara RTC - Control Register
 	LPC_RTC->ILR = 1; //Interrupt Location Register - kontrola flagi przerwan RTC
