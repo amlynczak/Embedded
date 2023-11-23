@@ -46,4 +46,8 @@ int main(){
 	LPC_RTC->CIIR = 1; //Counter Increment Interrupt Register - kontrola zdarzen RTC(co powoduje przerwanie itd.)
 
     NVIC_EnableIRQ(RTC_IRQn); //wlaczenie przerwan dal RTC
+
+	while(1){
+		
+	}
 }

@@ -37,4 +37,8 @@ int main(){
 	LPC_TIM0->TCR = 1; //Timer Control Register - ustawienie 1 na 1. bit (uruchomienie)
 	
 	NVIC_EnableIRQ(TIMER0_IRQn); // wlaczenie przerwan dla TIMER0 - z uzyciem TIMER0_IRQn
+
+	while(1){
+		
+	}
 }
