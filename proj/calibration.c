@@ -1,7 +1,7 @@
 #include"calibration.h"
 
 void calibrate(double *arr){
-	int px1 = 4095;
+    int px1 = 4095;
 	int py1 = 0;
 	int px2 = 4095;
 	int py2 = 0;
@@ -12,8 +12,6 @@ void calibrate(double *arr){
 	int *x3 = &px3, *y3 = &py3;
 
     char coor[16];
-	writeString(190, 100, "Kalibracja", LCDBlack);
-	writeString(170, 50, "Klikaj w wyswietlajace sie krzyzyki", LCDBlack);
 
     /*rysowanie krzyzykow do kalibracji/wyliczenia przelicznika miedzy tp a lcd*/
 	drawRectangle(0, 0, 240, 320, LCDWhite);
@@ -72,6 +70,12 @@ void calibrate(double *arr){
 	arr[2] = a2;
 	arr[3] = b2;
 	
+	sprintf(coor, "%d , %d", (int)((a1)*1000), (int)((b1)*1000));
+	writeString(100, 100, coor, LCDBlack);
+	
+	sprintf(coor, "%d , %d", (int)((a2)*1000), (int)((b2)*1000));
+	writeString(200, 200, coor, LCDBlack);
+	
 	delay(100);
 }
 
@@ -83,7 +87,7 @@ int calc(int xy, double a, double b){
 /*tego nie chcemy docelowo*/
 
 int calX(int x){
-    return (int)(0.0667 * (double)x - 17.16);
+    return (int)(0,0667 * (double)x - 17.16);
 }
 int calcY(int y){
     return (int)(0.0885 * (double)y - 12.71);

@@ -1,6 +1,3 @@
-#ifndef LCD_H
-#define LCD_H
-
 #include<stdio.h>
 #include<string.h>
 #include"lcd_lib/Open1768_LCD.h"
@@ -13,5 +10,3 @@ void drawRectangle(int x1, int y1, int x2, int y2, uint16_t color);
 void writeSign(int x_0, int y_0, unsigned char sign, uint16_t color);
 
 void writeString(int x_0, int y_0, char *napis, uint16_t color);
-
-#endif
