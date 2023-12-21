@@ -7,7 +7,7 @@ void SysTick_Handler(void){
     msTicks++;
 }
 
-void delay(int t){
+static void delay(int t){
     msTicks = 0;
     while(msTicks<t);
 }
