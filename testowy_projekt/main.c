@@ -40,6 +40,7 @@ int main(){
 	Player player1;
 	
 	calibrate(tab);
+	ustawStatkiRand(&player1);
 	drawBoard(&player1.board);
 	start(tab);
 
@@ -47,7 +48,7 @@ int main(){
 	
 
 		
-	int px = 10; //trzeba bylo cos takiego bo tam krzyczal pozniej
+	int px = 10;
 	int py = 10;
 	int *x = &px;
 	int *y = &py;

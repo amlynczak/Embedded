@@ -14,6 +14,7 @@ typedef struct{
 typedef struct{
 	int size;
 	int hits;
+	bool zatopiony;
 }Ship;
 
 typedef struct{

@@ -89,7 +89,7 @@ void drawX(int xy){
 	for(int i=x_0; i<x_1; i++){
 		for(int j=y_0; j<y_1; j++){
 			if(i==j){
-				drawRectangle(j-1,j+1,j-1,j+1, LCDRed);
+				drawRectangle(i,j,i+1,j+1, LCDRed);
 			}
 		}
 	}
