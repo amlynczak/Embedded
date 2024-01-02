@@ -1,11 +1,11 @@
 #ifndef GAME_H
 #define GAME_H
 
-#include <stdio.h>
-#include <string.h>
-#include "lcd.h"
-#include "calibration.h"
 #include "usart.h"
+#include "tp_lib/TP_Open1768.h"
+
+extern ARM_DRIVER_USART Driver_USART0;
+static bool startFlag;
 
 typedef struct{
 	int sqares[5][5]; //0 - nic nie ma na polu, 1 - postawiony statek, -1 - trafiony statek
@@ -15,19 +15,38 @@ typedef struct{
 	int size;
 	int hits;
 	bool zatopiony;
+	int *coordinates[2];
 }Ship;
 
 typedef struct{
-	Board board;
+	Board boardPlayer;
+	Board boardOpponent;
 	Ship ships[3];
 	bool win;
 }Player;
 
-extern ARM_DRIVER_USART Driver_USART0;
-static bool startFlag;
+bool isLegal(int x, int y, Board *b);
+
+int przelicz(int x, int y);
 
 void ustawStatkiRand(Player *p);
 
-void start(double *tab);
+void start(float *tab, ARM_DRIVER_USART * USARTdrv);
+
+bool shoot(float *tab, Player *player, ARM_DRIVER_USART * USARTdrv);
+
+void end(Player *player, float *tab, ARM_DRIVER_USART * USARTdrv);
+
+//z board
+
+void drawBoard(Board *board);
+
+void drawX(int xy);
+
+//z calibrate
+
+void calibrate(float *arr);
+
+int calc(int xy, float a, float b);
 
 #endif

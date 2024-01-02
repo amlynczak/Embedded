@@ -1,12 +1,9 @@
 #ifndef LCD_H
 #define LCD_H
 
-#include<stdio.h>
-#include<string.h>
-#include"lcd_lib/Open1768_LCD.h"
-#include"lcd_lib/LCD_ILI9325.h"
-#include"lcd_lib/asciiLib.h"
-#include "PIN_LPC17xx.h"
+#include "lcd_lib/Open1768_LCD.h"
+#include "lcd_lib/LCD_ILI9325.h"
+#include "lcd_lib/asciiLib.h"
 
 void drawRectangle(int x1, int y1, int x2, int y2, uint16_t color);
 
