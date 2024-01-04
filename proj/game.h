@@ -1,6 +1,8 @@
-#include <stdio.h>
-#include "lcd.h"
+#ifndef GAME_H
+#define GAME_H
+
 #include "usart.h"
+#include "tp_lib/TP_Open1768.h"
 
 extern ARM_DRIVER_USART Driver_USART0;
 static bool startFlag;
@@ -12,20 +14,17 @@ typedef struct{
 typedef struct{
 	int size;
 	int hits;
+	int coordinatesStart[2];
+	bool orientation; //true - pionowo, false - poziomo
 	bool zatopiony;
-	int *coordinates[2];
 }Ship;
 
 typedef struct{
 	Board boardPlayer;
 	Board boardOpponent;
-	
 	Ship ships[3];
 	bool win;
-	
 }Player;
-
-#include<stdlib.h>
 
 bool isLegal(int x, int y, Board *b);
 
@@ -33,9 +32,11 @@ int przelicz(int x, int y);
 
 void ustawStatkiRand(Player *p);
 
-void start(double *tab, ARM_DRIVER_USART * USARTdrv);
+void start(float *tab, ARM_DRIVER_USART * USARTdrv);
 
-void shoot(double *tab, Player *player, ARM_DRIVER_USART * USARTdrv);
+bool shoot(float *tab, Player *player, ARM_DRIVER_USART * USARTdrv);
+
+void end(Player *player, float *tab, ARM_DRIVER_USART * USARTdrv);
 
 //z board
 
@@ -43,11 +44,12 @@ void drawBoard(Board *board);
 
 void drawX(int xy);
 
+void drawVoid(int xy);
+
 //z calibrate
 
-#include"lcd.h"
-#include"tp_lib/TP_Open1768.h"
+void calibrate(float *arr);
 
-void calibrate(double *arr);
+int calc(int xy, float a, float b);
 
-int calc(int xy, double a, double b);
+#endif
