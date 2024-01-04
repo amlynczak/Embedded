@@ -14,8 +14,9 @@ typedef struct{
 typedef struct{
 	int size;
 	int hits;
+	int coordinatesStart[2];
+	bool orientation; //true - pionowo, false - poziomo
 	bool zatopiony;
-	int *coordinates[2];
 }Ship;
 
 typedef struct{
@@ -42,6 +43,8 @@ void end(Player *player, float *tab, ARM_DRIVER_USART * USARTdrv);
 void drawBoard(Board *board);
 
 void drawX(int xy);
+
+void drawVoid(int xy);
 
 //z calibrate
 

@@ -22,6 +22,11 @@ int main(){
 	
 	Player player1;
 	player1.win = false;
+	for(int i=0; i<3; i++){
+		player1.ships[i].hits = 0;
+		player1.ships[i].zatopiony = false;
+		player1.ships[i].size = 3-i;
+	}
 	ustawStatkiRand(&player1);
 	drawBoard(&player1.boardPlayer);
 	start(tab, USARTdrv);

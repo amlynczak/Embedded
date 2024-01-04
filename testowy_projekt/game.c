@@ -53,9 +53,21 @@ void ustawStatkiRand(Player *p){
 	int randX = msTicks%3;
 	int randY = msTicks%5;
 	
+	p->ships[0].coordinatesStart[0] = randX;
+	p->ships[0].coordinatesStart[1] = randY;
+	
 	p->boardPlayer.sqares[randX][randY] = 1;
-	p->boardPlayer.sqares[randX+1][randY] = 1;
-	p->boardPlayer.sqares[randX+2][randY] = 1;
+	
+	if((randX+randY)%2==0){
+		p->ships[0].orientation = true;
+		p->boardPlayer.sqares[randX+1][randY] = 1;
+		p->boardPlayer.sqares[randX+2][randY] = 1;
+	}else{
+		p->ships[0].orientation = false;
+		p->boardPlayer.sqares[randY][randX+1] = 1;
+		p->boardPlayer.sqares[randY][randX+2] = 1;
+	}
+	
 	
 	do{
 		randX = msTicks%4;
@@ -112,7 +124,7 @@ bool shoot(float *tab, Player *player, ARM_DRIVER_USART * USARTdrv){
 	
 	if(startFlag){
 		while(1){
-			touchpanelGetXY(x, y); //z liba, przekazujemy te wskazniki
+			touchpanelGetXY(x, y);
 			
 			if(calc(*y , tab[0], tab[1]) <= 155 && calc(*y , tab[0], tab[1]) >= 5 && calc(*x , tab[2], tab[3]) <= 315 && calc(*x , tab[2], tab[3]) >= 165){
 					delay(10);
@@ -126,11 +138,10 @@ bool shoot(float *tab, Player *player, ARM_DRIVER_USART * USARTdrv){
 			USARTdrv->Receive(&result, 2);
 			if(result > 0) break;
 	}
-		
-	if(!startFlag){
 		int x = result/10;
 		int y = result - x*10;
-		
+	
+	if(!startFlag){	
 		if(player->boardPlayer.sqares[x][y] == 1){
 			USARTdrv->Send("h", 1);
 		}else{
@@ -142,13 +153,31 @@ bool shoot(float *tab, Player *player, ARM_DRIVER_USART * USARTdrv){
 			USARTdrv->Receive(info, 1);
 			if(*info == 'h' || *info == 'm') break;
 		}
+		if(*info == 'h'){
+			player->boardOpponent.sqares[x][y] = 1;
+			drawX(result);
+		}else if(*info == 'm'){
+			player->boardOpponent.sqares[x][y] = 0; // tutaj wartosc dla nietrafionego
+			drawVoid(result);
+			startFlag = !startFlag;
+		}
 		writeSign(100, 100, *info, LCDBlack);
+		
 		
 		
 	}
 		
 	}
 	return player->win;
+}
+
+bool checkWin(Player *player) {
+    for (int i = 0; i < 3; i++) {
+        if (!player->ships[i].zatopiony) {
+            return false; // Jesli istnieje niezatopiony statek, gra nie zostala wygrana
+        }
+    }
+    return true; // Wszystkie statki przeciwnika zatopione, gracz wygrywa
 }
 
 void end(Player *player, float *tab, ARM_DRIVER_USART * USARTdrv){
@@ -231,13 +260,30 @@ void drawX(int xy){
 	x_1 = 5 + 30 * x;
 	y_1 = 165 + 30 * y;
 	
-	for(int i=x_0; i<x_1; i++){
-		for(int j=y_0; j<y_1; j++){
-			if(i==j){
-				drawRectangle(j-1,j+1,j-1,j+1, LCDRed);
+	for(int i=x_0; i<=x_1; i++){
+		for(int j=y_0; j<=y_1; j++){
+			if(i==j || i == (y_1-j)){
+				lcdWriteReg(ADRY_RAM, j);
+        lcdWriteReg(ADRX_RAM, i);
+        lcdWriteReg(DATA_RAM, LCDRed);
 			}
 		}
 	}
+}
+
+void drawVoid(int xy){
+	int x = (xy)/10;
+	int y = xy - y;
+	
+	int x_0, y_0, x_1, y_1;
+	
+	x_0 = 5 + 30 * (x-1);
+	y_0 = 165 + 30 * (y-1);
+	
+	x_1 = 5 + 30 * x;
+	y_1 = 165 + 30 * y;
+	
+	drawRectangle(x_0, y_0, x_1, y_1, LCDBlueSea);
 }
 
 void calibrate(float *arr){
